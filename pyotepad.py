@@ -20,23 +20,34 @@ import PySimpleGUI as psg
 from pyotepad.version import PYOTEPAD_VERSION
 
 def main(args):
-    psg.theme("DarkBlue11")
+    psg.theme("DarkAmber")
 
     layout = [
-        [ psg.InputText(expand_x=True) ],
+        [ psg.InputText(expand_x=True, key="FileName") ],
         [ psg.Button("New", expand_x=True),
           psg.Button("Open", expand_x=True),
           psg.Button("Save", expand_x=True),
           psg.Button("About", expand_x=True)],
-        [ psg.Multiline(size=(80, 25) )]
+        [ psg.Multiline(size=(80, 25), key="Pad")]
     ]
 
     window = psg.Window("Pyotepad " + PYOTEPAD_VERSION , layout)
 
     while True:
         event, values = window.read()
-        # FIXME: Add events
-        if event == psg.WINDOW_CLOSED:
+        if event == "New":
+            window["Pad"].update(value="")
+        elif event == "Open":
+            f = open(window["FileName"].get(), "rt", encoding="utf-8")
+            window["Pad"].update(f.read())
+            f.close()
+        elif event == "Save":
+            f = open(window["FileName"].get(), "wt", encoding="utf-8")
+            f.write(window["Pad"].get())
+            f.close()
+        elif event == "About":
+            pass
+        elif event == psg.WINDOW_CLOSED:
             break
 
 if __name__ == "__main__":

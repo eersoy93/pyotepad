@@ -46,7 +46,11 @@ def main(args):
             f.write(window["Pad"].get())
             f.close()
         elif event == "About":
-            pass
+            layoutAbout = [ [psg.Text("Pyotepad " + PYOTEPAD_VERSION + "\n" +
+                                      "Copyright (C) 2022 Erdem Ersoy\n" +
+                                      "Licensed with GPLv3. See LICENSE file.")] ]
+            windowAbout = psg.Window("About Pyotpead " + PYOTEPAD_VERSION, layoutAbout)
+            eventAbout, valuesAbout = windowAbout.read()
         elif event == psg.WINDOW_CLOSED:
             break
 
